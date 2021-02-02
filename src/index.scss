@@ -1,3 +1,21 @@
 @import '~@workday/canvas-kit-css/index.scss';
 @import '~@workday/canvas-kit-css-core/index.scss';
 @import '~@workday/canvas-kit-css-core/lib/colors.scss';
+
+#holder-div{
+    display: flex;
+    height: 50vh;
+}
+
+#left-div{
+    width: 50vw;
+}
+
+#right-div{
+    width: 50vw;
+    justify-content: center;
+    flex-direction: column;
+    height: 50vh;
+    margin-right: 2vw;
+    margin-left: 2vw;
+}

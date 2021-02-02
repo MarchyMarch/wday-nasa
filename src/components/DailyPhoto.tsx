@@ -2,7 +2,10 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import {H1, H2} from '@workday/canvas-kit-react-core';
+import Card from '@workday/canvas-kit-react-card';
+import {LoadingDots} from '@workday/canvas-kit-react-loading-animation';
 import '../index.scss';
+import './DailyPhoto.scss';
 
 interface DailyPhotoProps{
 }
@@ -16,6 +19,9 @@ interface DailyPhotoState {
     explanation: string;
     title: string;
     copyright: string;
+    mediaType: string;
+    url: string;
+    today: Date;
 }
 
 export class DailyPhoto extends React.Component<DailyPhotoProps, DailyPhotoState>{
@@ -52,7 +58,10 @@ export class DailyPhoto extends React.Component<DailyPhotoProps, DailyPhotoState
             imageUrlHD: "",
             explanation: "",
             title: "",
-            copyright: ""
+            copyright: "",
+            mediaType: "",
+            url: "",
+            today: new Date()
         }
 
         this.handleDateChange = this.handleDateChange.bind(this);
@@ -99,7 +108,9 @@ export class DailyPhoto extends React.Component<DailyPhotoProps, DailyPhotoState
                         imageUrlHD: data.hdurl,
                         explanation: data.explanation,
                         title: data.title,
-                        copyright: data.copyright
+                        copyright: data.copyright,
+                        mediaType: data.media_type,
+                        url: data.url
                     });
                     // console.log(data);
                 })
@@ -119,23 +130,65 @@ export class DailyPhoto extends React.Component<DailyPhotoProps, DailyPhotoState
     }
 
     render(): React.ReactNode{
-        if(this.state.imageLoaded){
+        // TODO: Add state to include media type to allow video
+        if(this.state.imageLoaded && this.state.mediaType === "image"){
             return(
-                <React.Fragment>
-                    <H1 >NASA Daily Photo</H1>
-                    <div className="wdc-type">
-                        <H2>{this.state.title}</H2>
-                        <img src={this.state.imageUrl} alt="" style={{borderRadius: "4px"}}/>
-                        <p className="wdc-type-body wdc-spacing-xl">{this.state.explanation}</p>
+                <div id="APOD">
+                    <H1 id="title">Astronomy Photo of the Day</H1>
+                    <H2>{this.state.title}</H2>
+                    <div id="holder-div">
+                        <div className="wdc-type" id="left-div">
+                            <img src={this.state.imageUrl} alt="" style={{borderRadius: "4px"}} id="DailyPhoto"/>
+                        </div>
+                        <div id="right-div">
+                            <Card heading="Description:">
+                                {this.state.explanation}
+                            </Card>
+                            <Card heading="Photo Selector" id="photo-selector">
+                                <span className="wdc-type-variant-label">Choose a date: </span>
+                                <DatePicker 
+                                    selected={this.state.photoDate} 
+                                    onChange={this.handleDateChange}
+                                    maxDate={this.state.today}/>
+                            </Card>
+                        </div>
                     </div>
-                    <div className="wdc-type">
-                        <span className="wdc-type-variant-label">Choose a date: </span>
-                        <DatePicker selected={this.state.photoDate} onChange={this.handleDateChange}/>
+                </div>
+            )
+        }else if(this.state.imageLoaded && this.state.mediaType === "video"){
+            return(
+                <div id="APOD">
+                    <H1 id="title">Astronomy Photo of the Day</H1>
+                    <H2>{this.state.title}</H2>
+                    <div id="holder-div">
+                        <div className="wdc-type" id="left-div">
+                            <iframe
+                                src={this.state.url}
+                                frameBorder="0"
+                                allow="autoplay; encryptedMedia"
+                                allowFullScreen
+                                title="video"
+                                width="100%"
+                                height="80%"
+                            />
+                        </div>
+                        <div id="right-div">
+                            <Card heading="Description:">
+                                {this.state.explanation}
+                            </Card>
+                            <Card heading="Photo Selector" id="photo-selector">
+                                <span className="wdc-type-variant-label">Choose a date: </span>
+                                <DatePicker 
+                                    selected={this.state.photoDate} 
+                                    onChange={this.handleDateChange}
+                                    maxDate={this.state.today}/>
+                            </Card>
+                        </div>
                     </div>
-                </React.Fragment>
+                </div>
             )
         }else{
-            return(<h1>Loading Image...</h1>)
+            return(<LoadingDots id="loading-dots"/>)
         }
     }
 }
