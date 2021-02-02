@@ -1,7 +1,10 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import {H1, H2} from '@workday/canvas-kit-react-core';
+import {PageHeader} from '@workday/canvas-kit-react-page-header';
+import {IconButton} from '@workday/canvas-kit-react-button';
+import {exportIcon, fullscreenIcon} from '@workday/canvas-system-icons-web';
+import {H2} from '@workday/canvas-kit-react-core';
 import Card from '@workday/canvas-kit-react-card';
 import {LoadingDots} from '@workday/canvas-kit-react-loading-animation';
 import '../index.scss';
@@ -134,7 +137,10 @@ export class DailyPhoto extends React.Component<DailyPhotoProps, DailyPhotoState
         if(this.state.imageLoaded && this.state.mediaType === "image"){
             return(
                 <div id="APOD">
-                    <H1 id="title">Astronomy Photo of the Day</H1>
+                    <PageHeader title="Astonomy Photo of the Day">
+                        <IconButton icon={exportIcon} aria-label="export"/>
+                        <IconButton icon={fullscreenIcon} aria-label="fullscreen"/>
+                    </PageHeader>
                     <H2>{this.state.title}</H2>
                     <div id="holder-div">
                         <div className="wdc-type" id="left-div">
@@ -158,7 +164,10 @@ export class DailyPhoto extends React.Component<DailyPhotoProps, DailyPhotoState
         }else if(this.state.imageLoaded && this.state.mediaType === "video"){
             return(
                 <div id="APOD">
-                    <H1 id="title">Astronomy Photo of the Day</H1>
+                    <PageHeader title="Astonomy Photo of the Day">
+                        <IconButton icon={exportIcon} aria-label="export"/>
+                        <IconButton icon={fullscreenIcon} aria-label="fullscreen"/>
+                    </PageHeader>
                     <H2>{this.state.title}</H2>
                     <div id="holder-div">
                         <div className="wdc-type" id="left-div">
@@ -178,10 +187,7 @@ export class DailyPhoto extends React.Component<DailyPhotoProps, DailyPhotoState
                             </Card>
                             <Card heading="Photo Selector" id="photo-selector">
                                 <span className="wdc-type-variant-label">Choose a date: </span>
-                                <DatePicker 
-                                    selected={this.state.photoDate} 
-                                    onChange={this.handleDateChange}
-                                    maxDate={this.state.today}/>
+                                <DatePicker selected={this.state.photoDate} onChange={this.handleDateChange}/>
                             </Card>
                         </div>
                     </div>

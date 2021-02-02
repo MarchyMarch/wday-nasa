@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.10",
     "@workday/canvas-kit-css": "^4.4.2",
     "@workday/canvas-kit-labs-react-header": "^4.4.2",
+    "@workday/canvas-kit-labs-react-tabs": "^4.4.2",
     "@workday/canvas-kit-react": "^4.4.2",
     "@workday/canvas-system-icons-web": "^1.0.44",
     "node-sass": "^4.14.1",

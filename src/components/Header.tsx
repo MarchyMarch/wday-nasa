@@ -1,19 +1,36 @@
 import React from 'react';
-import {Header, HeaderVariant} from '@workday/canvas-kit-labs-react-header';
+import {Header, HeaderVariant, SearchBar} from '@workday/canvas-kit-labs-react-header';
 import {IconButton, Avatar, Button, IconButtonVariant} from '@workday/canvas-kit-react';
 import {notificationsIcon} from '@workday/canvas-system-icons-web';
 
-export class HeaderBar extends React.Component{
+interface HeaderProps{
+}
+
+interface HeaderState{
+}
+
+export class HeaderBar extends React.Component<HeaderProps, HeaderState>{
+    constructor(props: HeaderProps){
+        super(props);
+
+        this.handleSearch = this.handleSearch.bind(this);
+    }
+
+    handleSearch(event : any): void{
+        let query = (event.target as HTMLFormElement).getElementsByTagName('input')[0].value;
+        console.log(query);
+    }
+
     render(){
         return(
-            <Header title="WDAYxNASA" brandUrl="#" variant={HeaderVariant.Dub}>
-                <nav>
-                    <ul>
-                        <li className="current"><a href="#APOD">APOD</a></li>
-                        <li><a href="#Mars Rover Photos">Mars Rover Photos</a></li>
-                        <li><a href="#Mosaics">Mosaics</a></li>
-                    </ul>
-                </nav>
+            <Header 
+                title="WDAYxNASA" 
+                brandUrl="#" 
+                variant={HeaderVariant.Dub} 
+                leftSlot={<SearchBar 
+                    isCollapsed={false}
+                    grow={false}
+                    onSubmit={this.handleSearch}/>}>
                 <IconButton 
                     icon={notificationsIcon}
                     variant={IconButtonVariant.Circle}
